@@ -88,7 +88,7 @@ const config: Config = {
           items: [
             {
               label: 'Open Spec',
-              to: '/docs/open-spec',
+              to: '/docs/category/open-spec',
             },
           ],
         },

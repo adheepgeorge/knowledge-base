@@ -1,7 +1,6 @@
 ---
 sidebar_position: 0
 title: Introduction
-slug: /
 ---
 
 # KV Knowledge Base
@@ -10,4 +9,4 @@ Engineering knowledge base for Key Value Systems — a curated collection of wor
 
 ## Sections
 
-- **[Open Spec](./open-spec)** — Spec-driven development workflow using OpenSpec.
+- **[Open Spec](./open-spec/developer-workflow-with-open-spec)** — Spec-driven development workflow using OpenSpec.

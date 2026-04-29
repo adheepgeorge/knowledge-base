@@ -13,7 +13,7 @@ If you only remember three things:
 2. **Four artifacts per change**, built in dependency order: `proposal → design → specs → tasks`.
 3. **The CLI is the source of truth.** Slash commands are just thin wrappers around `npx openspec ...` — when something looks weird, drop down to the CLI.
 
-> **For the why-and-what-to-fix companion to this doc, see** [`open-spec-improvements.md`](../../spec-driven-dev/open-spec-improvements.md).
+> **For the why-and-what-to-fix companion to this doc, see** `open-spec-improvements.md`.
 
 ---
 
@@ -443,7 +443,7 @@ npx openspec config list                              # show current profile + w
 - **`MODIFIED` vs `REMOVED` Requirements.** `REMOVED` is for whole `### Requirement:` blocks. Dropping a `#### Scenario:` from inside a Requirement is part of a `MODIFIED` block — paste the full Requirement, then edit. We almost wrote a stray `## REMOVED Requirements` section for a Scenario; caught it before `validate`.
 - **Don't paste `<context>` or `<rules>` into the artifact file.** The `openspec instructions ... --json` output gives you those as JSON fields. They are constraints for the writer, not content for the file. Templates also include `<!-- HTML comments -->` as authoring hints; strip them.
 - **Don't sync specs by hand.** `npx openspec archive` does the sync atomically. Editing `openspec/specs/<capability>/spec.md` directly and *then* archiving will produce confusing diffs and may leave the spec inconsistent.
-- **Don't add a Vitest test for `visibleActions` unless you actually have one.** The tasks.md template is a *floor* for normal changes; for a one-line allowlist edit there's no test layer to update. List only actionable items, never `N/A — not modified` placeholder bullets. **NB:** the Vitest claim in `AGENTS.md` / `config.yaml` is currently unfounded — see [`open-spec-improvements.md`](../../spec-driven-dev/open-spec-improvements.md) §2.1.
+- **Don't add a Vitest test for `visibleActions` unless you actually have one.** The tasks.md template is a *floor* for normal changes; for a one-line allowlist edit there's no test layer to update. List only actionable items, never `N/A — not modified` placeholder bullets. **NB:** the Vitest claim in `AGENTS.md` / `config.yaml` is currently unfounded — see `open-spec-improvements.md` §2.1.
 - **PR-hygiene tasks stay unchecked.** "Note in PR description", "manual click-through", and "after merge, archive" are real tasks — they just don't belong to the apply-loop. The `--yes` archive flag is the right way to acknowledge them at archive time.
 - **`-y` skips warnings, not validation.** `npx openspec archive ... -y` will still fail if the strict validation fails. If you want to bypass validation (almost never), use `--no-validate` separately.
 - **`validate --strict` does NOT guarantee `archive` will succeed.** Per the [upstream parallel-merge plan](https://github.com/Fission-AI/OpenSpec/blob/main/openspec-parallel-merge-plan.md), there are reported cases where validation passes but archive fails downstream (parser miscount under fenced code blocks; deltas that are valid in isolation but reference requirements no longer present after a sibling archive). For high-risk changes, **dry-archive first** in a throwaway worktree: `npx openspec archive <name> --no-validate`, inspect the merged spec, then run the real archive.
@@ -459,14 +459,14 @@ npx openspec config list                              # show current profile + w
 | Symptom | Likely cause | Fix |
 | --- | --- | --- |
 | `validate ... --strict` fails on `MODIFIED Requirements` | Pasted only the changed Scenario, not the whole Requirement | Copy the full `### Requirement:` block from the main spec, paste under `## MODIFIED Requirements`, edit in place |
-| `archive` says "Specs to update: <capability>: update" but main spec doesn't change | Delta is identical to main (already synced) | Safe to ignore; you may have hand-edited earlier |
+| `archive` says "Specs to update: `<capability>`: update" but main spec doesn't change | Delta is identical to main (already synced) | Safe to ignore; you may have hand-edited earlier |
 | `archive` reports "Target archive directory already exists" | Re-archiving on the same date | Rename / delete the old archive folder, or wait until tomorrow |
 | `archive` succeeds but a Scenario silently disappeared from the main spec | A sibling change archived first and replaced the requirement block | Re-author the delta against the **current** main spec; consider `--no-validate` dry-archive next time |
 | Slash command refuses to start | Missing artifact dependency | Run `openspec status --change ... --json` and look at `missingDeps` |
 | Slash command behaves differently from CLI docs | Local slash files lag the CLI version | `npx openspec update` (or `--force`) — there is no `--tools` flag on `update` |
 | `npx openspec update` ran cleanly but `/opsx-verify` (or another non-core workflow) still isn't installed | Global config has `profile: "core"`, which silently ignores the `workflows` array | `npx openspec config profile` → choose `custom` → tick the workflow → `npx openspec update` |
 | Apply loop guesses wrong | Task description was vague | Pause, edit the task in `tasks.md` with the right specifics, re-run `/opsx-apply` |
-| Code change shipped but spec wasn't updated | Skipped `archive`, or used `git mv` instead | Re-run `npx openspec archive <name>` from the original (un-renamed) folder |
+| Code change shipped but spec wasn't updated | Skipped `archive`, or used `git mv` instead | Re-run `npx openspec archive <name>` from the original (un-renamed) folder | 
 
 ---
 
@@ -508,4 +508,4 @@ That's the whole loop.
 ## 9. References
 
 - [OpenSpec — repo](https://github.com/Fission-AI/OpenSpec) · [`docs/concepts.md`](https://github.com/Fission-AI/OpenSpec/blob/main/docs/concepts.md) · [`docs/workflows.md`](https://github.com/Fission-AI/OpenSpec/blob/main/docs/workflows.md) · [parallel-merge plan](https://github.com/Fission-AI/OpenSpec/blob/main/openspec-parallel-merge-plan.md)
-- In-repo: [`AGENTS.md`](../../../../AGENTS.md), [`openspec/config.yaml`](../../../../openspec/config.yaml), [improvements doc](../../spec-driven-dev/open-spec-improvements.md), [adoption addendum](../openspec-adoption-addendum.md).
+- In-repo: `AGENTS.md`, `openspec/config.yaml`, `open-spec-improvements.md`, `openspec-adoption-addendum.md`.
