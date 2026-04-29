@@ -1,8 +1,3 @@
----
-sidebar_position: 1
-title: Developer Workflow with Open Spec
----
-
 # OpenSpec dev workflow (analytics-web)
 
 How a developer (or an AI agent driving on their behalf) actually ships a behavior change through OpenSpec in this repo. Grounded in the real change we shipped recently: `remove-show-underlying-data-sales-dashboard` — a one-line revert that pulls `Action.ShowUnderlyingData` out of the sales dashboard's `visibleActions` allowlist.
@@ -130,11 +125,13 @@ Re-run `openspec update` **after** every `@fission-ai/openspec` bump in `package
 Use this when the ticket is vague, requirements conflict, or you don't yet know what capability is actually affected. Explore is a thinking-partner session — it does not scaffold any files.
 
 **Bring in:**
+
 - The ticket description or Jira/Linear link
 - Any relevant existing spec (`openspec/specs/<capability>/spec.md`) if you suspect it's in scope
 - Screenshots, error logs, or stakeholder notes
 
 **What it produces:**
+
 - A clearer problem statement
 - Candidate capabilities affected
 - Enough scope to write a focused `proposal.md`
@@ -207,7 +204,7 @@ Reads context (`proposal`, `design`, `specs`, `tasks`), then loops through `- [ 
 - A blocker (e.g. missing dependency, broken types)
 - A discovered design issue (suggests amending an artifact rather than guessing)
 
-Tasks that are *PR/QA hygiene* (manual click-through, "note in PR description", "archive after merge") stay unchecked — those belong to the human, not the agent.
+Tasks that are _PR/QA hygiene_ (manual click-through, "note in PR description", "archive after merge") stay unchecked — those belong to the human, not the agent.
 
 ```mermaid
 sequenceDiagram
@@ -293,6 +290,96 @@ sequenceDiagram
     CLI-->>Dev: ✓ main spec clean<br/>(commit the archive)
 ```
 
+### Expanded workflow commands (custom profile only)
+
+The seven commands below are not available on the default `core` profile. Enable them by running `npx openspec config profile`, switching to `custom`, ticking the workflows you want, then `npx openspec update`.
+
+---
+
+#### `/opsx-new [name]`
+
+Creates the change scaffold (`openspec/changes/<name>/` + `.openspec.yaml`) with **no artifacts**. Use this as the starting point when you want to generate and review one artifact at a time rather than the whole plan in one shot — follow it with `/opsx-continue`.
+
+---
+
+#### `/opsx-continue [name]`
+
+Generates the **next artifact in the dependency chain**, one at a time, then stops so you can review before proceeding. Reads all completed artifacts for context, shows what is ready vs blocked, and tells you what to run next.
+
+Order: `proposal.md` → `design.md` → `specs/<capability>/spec.md` → `tasks.md`.
+
+Use this when:
+
+- The change is large enough that you want a human sign-off on the proposal before the design is written.
+- You are iterating on the design doc before locking in tasks.
+- You interrupted a `/opsx-propose` session mid-way and need to resume from the last completed artifact.
+
+---
+
+#### `/opsx-ff [name]`
+
+Fast-forward — generates **all remaining artifacts at once**, respecting dependencies, but reading each completed artifact before writing the next. Faster than `/opsx-continue` because it doesn't pause; slower than `/opsx-propose` because it surfaces each artifact as it goes.
+
+Use when:
+
+- You used `/opsx-new` to start the change but now want to complete planning quickly.
+- You want to see the artifacts as they are produced without waiting for interactive review.
+
+Equivalent to running `/opsx-continue` in a tight loop until all artifacts are done.
+
+---
+
+#### `/opsx-sync [name]`
+
+Merges the change's delta specs (`openspec/changes/<name>/specs/<cap>/spec.md`) into the living spec (`openspec/specs/<cap>/spec.md`) **without archiving the change**. The change folder stays active.
+
+Use this for long-running branches where other changes have already archived and updated the main spec. Sync your delta forward before archiving so you're not overwriting recent updates.
+
+> **Normally you won't need this directly.** `/opsx-archive` offers to sync as part of its flow. Only reach for `/opsx-sync` explicitly when you need an up-to-date base spec mid-flight (e.g. before rebasing a long branch).
+
+---
+
+#### `/opsx-bulk-archive`
+
+Archives **multiple completed changes** in one pass. Detects spec conflicts across the batch and resolves them by inspecting the current codebase state rather than guessing from artifact order.
+
+Use when:
+
+- You have been running parallel feature branches (`sales-dashboard` + `leads-dashboard` changes) and both landed around the same time.
+- You let several small changes pile up and want to clean up the `openspec/changes/` folder in one go.
+
+> Still run `npx openspec validate --all --strict` after bulk-archiving to verify the merged main specs are consistent.
+
+---
+
+#### `/opsx-onboard`
+
+Interactive tutorial that walks a new developer through the **complete OpenSpec cycle on the real codebase** — finding an improvement opportunity, creating a change, implementing it, and archiving it — with narration at each step.
+
+Intended for:
+
+- New teammates being introduced to the spec-driven workflow in this repo.
+- Developers familiar with OpenSpec in general but unfamiliar with how it is configured here (artifact shapes, `config.yaml` context injection, naming conventions).
+
+Not intended for active feature work.
+
+---
+
+### Choosing a path
+
+| Situation                                                         | Path                                                                                  |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Scope is clear, change is self-contained                          | `/opsx-propose` → `/opsx-apply` → `/opsx-archive`                                     |
+| Requirements are fuzzy                                            | `/opsx-explore` → `/opsx-propose` → `/opsx-apply` → `/opsx-archive`                   |
+| Complex change; want to review each artifact before the next      | `/opsx-new` → `/opsx-continue` × N → `/opsx-apply` → `/opsx-verify` → `/opsx-archive` |
+| Confident on scope, want artifacts visible but fast               | `/opsx-new` → `/opsx-ff` → `/opsx-apply` → `/opsx-verify` → `/opsx-archive`           |
+| Long-running branch; base spec has drifted                        | … → `/opsx-sync` → rebase → `/opsx-apply` → `/opsx-archive`                           |
+| Multiple parallel branches just merged                            | `/opsx-bulk-archive`                                                                  |
+| Pre-archive safety check on auth / middleware / multi-cap changes | … → `/opsx-verify` → `/opsx-archive`                                                  |
+| Onboarding a new developer                                        | `/opsx-onboard` (standalone — not during active feature work)                         |
+
+The **core profile** covers the first two rows. Anything below requires switching to `custom` (`npx openspec config profile` → `npx openspec update`).
+
 ---
 
 ## 4. End-to-end walkthrough
@@ -334,7 +421,7 @@ What happened:
 1. Scaffolded `openspec/changes/remove-show-underlying-data-sales-dashboard/` with `.openspec.yaml`.
 2. Built `proposal.md` — Why (data owner reported aggregation-hidden rows getting exposed), What (delete one line + spec delta), in-scope / out-of-scope, Capabilities (`sales-dashboard` modified), Impact (route, container, rollback).
 3. Built `design.md` — kept it short because the change is trivial. Recorded the one real trade-off (remove outright vs. flag) and a comment-hygiene note (don't leave a `// Action.ShowUnderlyingData,` placeholder).
-4. Built the delta spec at `specs/sales-dashboard/spec.md`. Started with a `REMOVED Requirements` section by mistake, then realized the doomed item was a *Scenario* under `Liveboard embed configuration`, not a top-level Requirement — so it's just a `MODIFIED Requirements` block with the Scenario dropped and the visibleActions list shrunk from 10 → 9 entries. **Lesson: a Scenario disappearing inside a Requirement is a `MODIFIED` operation, not a `REMOVED` one.**
+4. Built the delta spec at `specs/sales-dashboard/spec.md`. Started with a `REMOVED Requirements` section by mistake, then realized the doomed item was a _Scenario_ under `Liveboard embed configuration`, not a top-level Requirement — so it's just a `MODIFIED Requirements` block with the Scenario dropped and the visibleActions list shrunk from 10 → 9 entries. **Lesson: a Scenario disappearing inside a Requirement is a `MODIFIED` operation, not a `REMOVED` one.**
 5. Built `tasks.md` — 4 numbered groups (Pre-merge / Code / Verify / Archive), 6 bullets total, all checkboxes.
 6. Validated: `npx openspec validate remove-show-underlying-data-sales-dashboard --strict` → passed.
 
@@ -360,7 +447,7 @@ What happened:
 /opsx-verify
 ```
 
-For this change it would have flagged: *"Tests: empty section under §3 — is there a Vitest or Playwright test that should land?"* Answer: no — the verification note Scenario already documents that the iframe DOM isn't observable, so the array literal change is verified by code review + `validate --strict`. That's the kind of question `/opsx-verify` is designed to surface so the author can answer it explicitly rather than implicitly.
+For this change it would have flagged: _"Tests: empty section under §3 — is there a Vitest or Playwright test that should land?"_ Answer: no — the verification note Scenario already documents that the iframe DOM isn't observable, so the array literal change is verified by code review + `validate --strict`. That's the kind of question `/opsx-verify` is designed to surface so the author can answer it explicitly rather than implicitly.
 
 ### 4.4 Archive
 
@@ -442,8 +529,8 @@ npx openspec config list                              # show current profile + w
 
 - **`MODIFIED` vs `REMOVED` Requirements.** `REMOVED` is for whole `### Requirement:` blocks. Dropping a `#### Scenario:` from inside a Requirement is part of a `MODIFIED` block — paste the full Requirement, then edit. We almost wrote a stray `## REMOVED Requirements` section for a Scenario; caught it before `validate`.
 - **Don't paste `<context>` or `<rules>` into the artifact file.** The `openspec instructions ... --json` output gives you those as JSON fields. They are constraints for the writer, not content for the file. Templates also include `<!-- HTML comments -->` as authoring hints; strip them.
-- **Don't sync specs by hand.** `npx openspec archive` does the sync atomically. Editing `openspec/specs/<capability>/spec.md` directly and *then* archiving will produce confusing diffs and may leave the spec inconsistent.
-- **Don't add a Vitest test for `visibleActions` unless you actually have one.** The tasks.md template is a *floor* for normal changes; for a one-line allowlist edit there's no test layer to update. List only actionable items, never `N/A — not modified` placeholder bullets. **NB:** the Vitest claim in `AGENTS.md` / `config.yaml` is currently unfounded — see `open-spec-improvements.md` §2.1.
+- **Don't sync specs by hand.** `npx openspec archive` does the sync atomically. Editing `openspec/specs/<capability>/spec.md` directly and _then_ archiving will produce confusing diffs and may leave the spec inconsistent.
+- **Don't add a Vitest test for `visibleActions` unless you actually have one.** The tasks.md template is a _floor_ for normal changes; for a one-line allowlist edit there's no test layer to update. List only actionable items, never `N/A — not modified` placeholder bullets. **NB:** the Vitest claim in `AGENTS.md` / `config.yaml` is currently unfounded — see `open-spec-improvements.md` §2.1.
 - **PR-hygiene tasks stay unchecked.** "Note in PR description", "manual click-through", and "after merge, archive" are real tasks — they just don't belong to the apply-loop. The `--yes` archive flag is the right way to acknowledge them at archive time.
 - **`-y` skips warnings, not validation.** `npx openspec archive ... -y` will still fail if the strict validation fails. If you want to bypass validation (almost never), use `--no-validate` separately.
 - **`validate --strict` does NOT guarantee `archive` will succeed.** Per the [upstream parallel-merge plan](https://github.com/Fission-AI/OpenSpec/blob/main/openspec-parallel-merge-plan.md), there are reported cases where validation passes but archive fails downstream (parser miscount under fenced code blocks; deltas that are valid in isolation but reference requirements no longer present after a sibling archive). For high-risk changes, **dry-archive first** in a throwaway worktree: `npx openspec archive <name> --no-validate`, inspect the merged spec, then run the real archive.
@@ -456,17 +543,17 @@ npx openspec config list                              # show current profile + w
 
 ## 7. When things go wrong
 
-| Symptom | Likely cause | Fix |
-| --- | --- | --- |
-| `validate ... --strict` fails on `MODIFIED Requirements` | Pasted only the changed Scenario, not the whole Requirement | Copy the full `### Requirement:` block from the main spec, paste under `## MODIFIED Requirements`, edit in place |
-| `archive` says "Specs to update: `<capability>`: update" but main spec doesn't change | Delta is identical to main (already synced) | Safe to ignore; you may have hand-edited earlier |
-| `archive` reports "Target archive directory already exists" | Re-archiving on the same date | Rename / delete the old archive folder, or wait until tomorrow |
-| `archive` succeeds but a Scenario silently disappeared from the main spec | A sibling change archived first and replaced the requirement block | Re-author the delta against the **current** main spec; consider `--no-validate` dry-archive next time |
-| Slash command refuses to start | Missing artifact dependency | Run `openspec status --change ... --json` and look at `missingDeps` |
-| Slash command behaves differently from CLI docs | Local slash files lag the CLI version | `npx openspec update` (or `--force`) — there is no `--tools` flag on `update` |
-| `npx openspec update` ran cleanly but `/opsx-verify` (or another non-core workflow) still isn't installed | Global config has `profile: "core"`, which silently ignores the `workflows` array | `npx openspec config profile` → choose `custom` → tick the workflow → `npx openspec update` |
-| Apply loop guesses wrong | Task description was vague | Pause, edit the task in `tasks.md` with the right specifics, re-run `/opsx-apply` |
-| Code change shipped but spec wasn't updated | Skipped `archive`, or used `git mv` instead | Re-run `npx openspec archive <name>` from the original (un-renamed) folder | 
+| Symptom                                                                                                   | Likely cause                                                                      | Fix                                                                                                              |
+| --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `validate ... --strict` fails on `MODIFIED Requirements`                                                  | Pasted only the changed Scenario, not the whole Requirement                       | Copy the full `### Requirement:` block from the main spec, paste under `## MODIFIED Requirements`, edit in place |
+| `archive` says "Specs to update: `<capability>`: update" but main spec doesn't change                     | Delta is identical to main (already synced)                                       | Safe to ignore; you may have hand-edited earlier                                                                 |
+| `archive` reports "Target archive directory already exists"                                               | Re-archiving on the same date                                                     | Rename / delete the old archive folder, or wait until tomorrow                                                   |
+| `archive` succeeds but a Scenario silently disappeared from the main spec                                 | A sibling change archived first and replaced the requirement block                | Re-author the delta against the **current** main spec; consider `--no-validate` dry-archive next time            |
+| Slash command refuses to start                                                                            | Missing artifact dependency                                                       | Run `openspec status --change ... --json` and look at `missingDeps`                                              |
+| Slash command behaves differently from CLI docs                                                           | Local slash files lag the CLI version                                             | `npx openspec update` (or `--force`) — there is no `--tools` flag on `update`                                    |
+| `npx openspec update` ran cleanly but `/opsx-verify` (or another non-core workflow) still isn't installed | Global config has `profile: "core"`, which silently ignores the `workflows` array | `npx openspec config profile` → choose `custom` → tick the workflow → `npx openspec update`                      |
+| Apply loop guesses wrong                                                                                  | Task description was vague                                                        | Pause, edit the task in `tasks.md` with the right specifics, re-run `/opsx-apply`                                |
+| Code change shipped but spec wasn't updated                                                               | Skipped `archive`, or used `git mv` instead                                       | Re-run `npx openspec archive <name>` from the original (un-renamed) folder                                       |
 
 ---
 
