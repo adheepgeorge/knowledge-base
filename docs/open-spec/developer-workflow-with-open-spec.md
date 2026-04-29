@@ -1,4 +1,4 @@
-# OpenSpec dev workflow (analytics-web)
+# OpenSpec dev workflow
 
 How a developer (or an AI agent driving on their behalf) actually ships a behavior change through OpenSpec in this repo. Grounded in the real change we shipped recently: `remove-show-underlying-data-sales-dashboard` — a one-line revert that pulls `Action.ShowUnderlyingData` out of the sales dashboard's `visibleActions` allowlist.
 
@@ -63,7 +63,7 @@ stateDiagram-v2
 
 - Behavior changes in `src/app/**`, `src/containers/**`, `src/middleware.ts`.
 - Anything user-visible (UI states, routes, role gates, embed configuration like the change we just shipped).
-- Anything that affects auth, role gates, the `/analytics/api/verifyToken` flow, or i18n message keys.
+- Anything that affects auth, role gates, token-verification flows, or i18n message keys.
 
 **Skip it for:**
 
@@ -594,4 +594,3 @@ That's the whole loop.
 ## 9. References
 
 - [OpenSpec — repo](https://github.com/Fission-AI/OpenSpec) · [`docs/concepts.md`](https://github.com/Fission-AI/OpenSpec/blob/main/docs/concepts.md) · [`docs/workflows.md`](https://github.com/Fission-AI/OpenSpec/blob/main/docs/workflows.md) · [parallel-merge plan](https://github.com/Fission-AI/OpenSpec/blob/main/openspec-parallel-merge-plan.md)
-- In-repo: `AGENTS.md`, `openspec/config.yaml`, `open-spec-improvements.md`, `openspec-adoption-addendum.md`.
