@@ -1,6 +1,8 @@
 {
   "label": "Open Spec",
   "position": 1,
+  "collapsible": true,
+  "collapsed": false,
   "link": {
     "type": "generated-index",
     "description": "Knowledge base for OpenSpec — the spec-driven development workflow."
