@@ -8,8 +8,6 @@ If you only remember three things:
 2. **Four artifacts per change**, built in dependency order: `proposal → design → specs → tasks`.
 3. **The CLI is the source of truth.** Slash commands are just thin wrappers around `npx openspec ...` — when something looks weird, drop down to the CLI.
 
-> **For the why-and-what-to-fix companion to this doc, see** `open-spec-improvements.md`.
-
 ---
 
 ## 1. Mental model
@@ -29,7 +27,7 @@ openspec/
   changes/archive/YYYY-MM-DD-<name>/  # past changes, kept for history
 ```
 
-`openspec/config.yaml` injects repo-wide context (Next.js 15, React Query, next-intl, container pattern, Playwright as primary verification, etc.) into every artifact prompt. **You do not paste this context yourself** — it's automatic. Just write your artifact.
+`openspec/config.yaml` is the prompt header injected into every artifact prompt. In this repo it deliberately stays thin: it points the agent at `AGENTS.md` at the repo root for the bulk of the project context (full stack — Next.js 15 / React 19 / React Query v5 / MUI v6 / Tailwind / next-intl; auth flow; container pattern; server vs client component split; Playwright E2E as primary verification; OpenAPI-generated types in `generated/`; base path `/analytics`) and keeps only the residual rules — telemetry preservation and explicit non-goals — inline. **You do not paste any of this yourself** — `config.yaml` injects the pointer, the agent reads `AGENTS.md` on its own. Just write your artifact.
 
 A change always has exactly one `proposal.md`, optionally one `design.md`, one `tasks.md`, and one delta spec file per affected capability under `specs/<capability>/spec.md`.
 
@@ -529,7 +527,7 @@ npx openspec config list                              # show current profile + w
 - **`MODIFIED` vs `REMOVED` Requirements.** `REMOVED` is for whole `### Requirement:` blocks. Dropping a `#### Scenario:` from inside a Requirement is part of a `MODIFIED` block — paste the full Requirement, then edit. We almost wrote a stray `## REMOVED Requirements` section for a Scenario; caught it before `validate`.
 - **Don't paste `<context>` or `<rules>` into the artifact file.** The `openspec instructions ... --json` output gives you those as JSON fields. They are constraints for the writer, not content for the file. Templates also include `<!-- HTML comments -->` as authoring hints; strip them.
 - **Don't sync specs by hand.** `npx openspec archive` does the sync atomically. Editing `openspec/specs/<capability>/spec.md` directly and _then_ archiving will produce confusing diffs and may leave the spec inconsistent.
-- **Don't add a Vitest test for `visibleActions` unless you actually have one.** The tasks.md template is a _floor_ for normal changes; for a one-line allowlist edit there's no test layer to update. List only actionable items, never `N/A — not modified` placeholder bullets. **NB:** the Vitest claim in `AGENTS.md` / `config.yaml` is currently unfounded — see `open-spec-improvements.md` §2.1.
+- **Don't add a Vitest test for `visibleActions` unless you actually have one.** The tasks.md template is a _floor_ for normal changes; for a one-line allowlist edit there's no test layer to update. List only actionable items, never `N/A — not modified` placeholder bullets. **NB:** `AGENTS.md` lists Vitest alongside Playwright as part of the verification substrate, but the vast majority of behavior coverage in this repo lives in Playwright. Don't manufacture a unit test just to satisfy the template.
 - **PR-hygiene tasks stay unchecked.** "Note in PR description", "manual click-through", and "after merge, archive" are real tasks — they just don't belong to the apply-loop. The `--yes` archive flag is the right way to acknowledge them at archive time.
 - **`-y` skips warnings, not validation.** `npx openspec archive ... -y` will still fail if the strict validation fails. If you want to bypass validation (almost never), use `--no-validate` separately.
 - **`validate --strict` does NOT guarantee `archive` will succeed.** Per the [upstream parallel-merge plan](https://github.com/Fission-AI/OpenSpec/blob/main/openspec-parallel-merge-plan.md), there are reported cases where validation passes but archive fails downstream (parser miscount under fenced code blocks; deltas that are valid in isolation but reference requirements no longer present after a sibling archive). For high-risk changes, **dry-archive first** in a throwaway worktree: `npx openspec archive <name> --no-validate`, inspect the merged spec, then run the real archive.
