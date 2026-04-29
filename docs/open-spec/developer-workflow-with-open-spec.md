@@ -39,21 +39,20 @@ A change moves through seven states. Most tickets enter at Exploring, not Drafte
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Exploring: /opsx-explore<br/>(fuzzy ticket or unclear scope)
-    [*] --> Drafted: /opsx-propose<br/>(scope already clear)
-    Exploring --> Drafted: scope clear enough<br/>to write a proposal
-    Exploring --> [*]: not worth doing<br/>(no change needed)
-    Drafted --> Validated: artifacts built<br/>(proposal → design → specs → tasks)
+    [*] --> Exploring: /opsx-explore (fuzzy ticket or unclear scope)
+    [*] --> Drafted: /opsx-propose (scope already clear)
+    Exploring --> Drafted: scope clear enough to write a proposal
+    Exploring --> [*]: not worth doing (no change needed)
+    Drafted --> Validated: artifacts built (proposal, design, specs, tasks)
     Validated --> Implementing: /opsx-apply
-    Implementing --> CodeReady: every code task<br/>marked [x]
-    CodeReady --> Verified: /opsx-verify<br/>(non-blocking sweep)
+    Implementing --> CodeReady: every code task marked done
+    CodeReady --> Verified: /opsx-verify (non-blocking sweep)
     Verified --> Merged: PR review + merge
-    Merged --> Archived: /opsx-archive<br/>(sync delta + rename folder)
+    Merged --> Archived: /opsx-archive (sync delta + rename folder)
     Archived --> [*]
 
-    Implementing --> Drafted: design issue surfaces<br/>amend artifacts
-    Exploring --> Drafted: exploration surfaces<br/>new scope → re-propose
-    Drafted --> [*]: discarded<br/>(rm changes/&lt;name&gt;/)
+    Implementing --> Drafted: design issue surfaces, amend artifacts
+    Drafted --> [*]: discarded (remove change folder)
 ```
 
 ---
