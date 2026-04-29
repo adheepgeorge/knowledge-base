@@ -14,11 +14,13 @@ const config: Config = {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
-  url: 'https://keyvalue.systems',
-  baseUrl: '/',
+  url: 'https://keyvalue-systems.github.io',
+  baseUrl: '/kv-knowledge-base/',
 
   organizationName: 'keyvalue-systems',
   projectName: 'kv-knowledge-base',
+  deploymentBranch: 'gh-pages',
+  trailingSlash: false,
 
   onBrokenLinks: 'throw',
 
