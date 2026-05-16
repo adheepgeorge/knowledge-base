@@ -8,7 +8,7 @@ const config: Config = {
   title: "Knowledge Base",
   tagline:
     "a curated collection of workflows, standards, and best practices used across our projects.",
-  favicon: "img/favicon.ico",
+  favicon: "img/logo.svg",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -53,7 +53,7 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: "img/docusaurus-social-card.jpg",
+    image: "img/logo.svg",
     colorMode: {
       respectPrefersColorScheme: true,
     },
@@ -69,6 +69,7 @@ const config: Config = {
     navbar: {
       title: "Knowledge Base",
       logo: {
+        alt: "Knowledge Base logo",
         src: "img/logo.svg",
       },
       items: [

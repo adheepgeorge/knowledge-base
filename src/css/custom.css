@@ -1,5 +1,7 @@
 /**
- * AMI brand palette applied to Docusaurus/Infima.
+ * AMI brand palette.
+ * Light theme: white surfaces with AMI red accents.
+ * Dark theme: deep navy surfaces with a brighter red for contrast.
  * RED #DA212C · RED_DARK #B71C1C · RED_DEEP #8B0000
  * NAVY #323C49 · NAVY_MID #4A5568
  */
@@ -17,24 +19,34 @@
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(218, 33, 44, 0.08);
 
+  /* Page surfaces → white */
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #ffffff;
+
   /* Body text → NAVY */
   --ifm-font-color-base: #323C49;
   --ifm-heading-color: #323C49;
 
-  /* Navbar → NAVY background */
-  --ifm-navbar-background-color: #323C49;
-  --ifm-navbar-link-color: #ffffff;
-  --ifm-navbar-link-hover-color: #EA6B75;
-  --ifm-navbar-shadow: 0 2px 8px rgba(50, 60, 73, 0.3);
+  /* Navbar → WHITE background with navy links */
+  --ifm-navbar-background-color: #ffffff;
+  --ifm-navbar-link-color: #4A5568;
+  --ifm-navbar-link-hover-color: #DA212C;
+  --ifm-navbar-shadow: 0 1px 2px rgba(50, 60, 73, 0.08);
 
-  /* Sidebar active item */
-  --ifm-menu-color-active: #DA212C;
+  /* Sidebar active item — tracks --ifm-color-primary so it adapts in dark mode */
+  --ifm-menu-color-active: var(--ifm-color-primary);
 
-  /* Footer */
+  /* Footer stays dark for grounding at page bottom */
   --ifm-footer-background-color: #323C49;
   --ifm-footer-color: #ffffff;
   --ifm-footer-link-color: #EA6B75;
   --ifm-footer-link-hover-color: #ffffff;
+
+  /* Local tokens used by overrides below */
+  --ami-hero-bg: #ffffff;
+  --ami-hero-title: #DA212C;
+  --ami-hero-subtitle: #4A5568;
+  --ami-navbar-title: #323C49;
 }
 
 [data-theme='dark'] {
@@ -49,19 +61,53 @@
 
   --docusaurus-highlighted-code-line-bg: rgba(240, 78, 87, 0.15);
 
-  /* Navbar stays NAVY in dark mode */
-  --ifm-navbar-background-color: #1E252F;
-  --ifm-navbar-link-color: #ffffff;
-  --ifm-navbar-link-hover-color: #F4676F;
+  /* Page surfaces → deep navy for readable contrast */
+  --ifm-background-color: #1B1F26;
+  --ifm-background-surface-color: #242A33;
 
-  --ifm-footer-background-color: #1E252F;
+  /* Body text → soft white */
+  --ifm-font-color-base: #E5E7EB;
+  --ifm-heading-color: #F5F7FA;
+
+  /* Navbar */
+  --ifm-navbar-background-color: #1E252F;
+  --ifm-navbar-link-color: #E5E7EB;
+  --ifm-navbar-link-hover-color: #F4676F;
+  --ifm-navbar-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+
+  /* Footer */
+  --ifm-footer-background-color: #11151B;
+  --ifm-footer-color: #E5E7EB;
+  --ifm-footer-link-color: #F67A81;
+  --ifm-footer-link-hover-color: #ffffff;
+
+  /* Local tokens */
+  --ami-hero-bg: var(--ifm-background-color);
+  --ami-hero-title: #F4676F;
+  --ami-hero-subtitle: #C9CED6;
+  --ami-navbar-title: #F5F7FA;
 }
 
-/* Ensure navbar title/logo text is white */
+/* Navbar title adapts to theme */
 .navbar__title {
-  color: #ffffff;
+  color: var(--ami-navbar-title);
+  font-weight: 600;
 }
 
 .navbar__brand:hover .navbar__title {
-  color: #EA6B75;
+  color: var(--ifm-color-primary);
+}
+
+/* Hero: AM-I docs style — surface bg with red title */
+.hero--primary {
+  background-color: var(--ami-hero-bg);
+  color: var(--ifm-font-color-base);
+}
+
+.hero--primary .hero__title {
+  color: var(--ami-hero-title);
+}
+
+.hero--primary .hero__subtitle {
+  color: var(--ami-hero-subtitle);
 }

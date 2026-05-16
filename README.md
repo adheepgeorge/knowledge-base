@@ -1,41 +1,45 @@
-# Website
+# Knowledge Base
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+A curated collection of workflows, standards, and best practices used across our projects. Published as a static documentation site.
 
 ## Installation
 
 ```bash
-yarn
+npm install
 ```
 
 ## Local Development
 
 ```bash
-yarn start
+npm run start
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+Starts a local development server at <http://localhost:3000/knowledge-base/> with live reload.
 
 ## Build
 
 ```bash
-yarn build
+npm run build
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+Generates the static site into the `build/` directory, ready to serve from any static host.
 
 ## Deployment
+
+The site is published to GitHub Pages on the `gh-pages` branch.
 
 Using SSH:
 
 ```bash
-USE_SSH=true yarn deploy
+USE_SSH=true npm run deploy
 ```
 
-Not using SSH:
+Without SSH:
 
 ```bash
-GIT_USER=<Your GitHub username> yarn deploy
+GIT_USER=<your-github-username> npm run deploy
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+## Adding Content
+
+Drop new pages into `docs/` as `.md` or `.mdx` files. Folders become sidebar categories — see `docs/open-spec/_category_.json` for an example category config.
