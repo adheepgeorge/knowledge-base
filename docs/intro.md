@@ -3,9 +3,9 @@ sidebar_position: 0
 title: Introduction
 ---
 
-# KV Knowledge Base
+# Knowledge Base
 
-Engineering knowledge base for Key Value Systems — a curated collection of workflows, standards, and best practices used across our projects.
+a curated collection of workflows, standards, and best practices used across our projects.
 
 ## Sections
 

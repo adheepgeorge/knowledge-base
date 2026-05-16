@@ -1,59 +1,59 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
-import type * as Preset from '@docusaurus/preset-classic';
+import { themes as prismThemes } from "prism-react-renderer";
+import type { Config } from "@docusaurus/types";
+import type * as Preset from "@docusaurus/preset-classic";
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'Knowledge Base',
-  tagline: 'Engineering knowledge base for Key Value Systems',
-  favicon: 'img/favicon.ico',
+  title: "Knowledge Base",
+  tagline:
+    "a curated collection of workflows, standards, and best practices used across our projects.",
+  favicon: "img/favicon.ico",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
-  url: 'https://adheepgeorge.github.io',
-  baseUrl: '/knowledge-base/',
+  url: "https://adheepgeorge.github.io",
+  baseUrl: "/knowledge-base/",
 
-  organizationName: 'adheepgeorge',
-  projectName: 'knowledge-base',
-  deploymentBranch: 'gh-pages',
+  organizationName: "adheepgeorge",
+  projectName: "knowledge-base",
+  deploymentBranch: "gh-pages",
   trailingSlash: false,
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: "throw",
 
   markdown: {
     mermaid: true,
   },
 
-  themes: ['@docusaurus/theme-mermaid'],
+  themes: ["@docusaurus/theme-mermaid"],
 
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+    defaultLocale: "en",
+    locales: ["en"],
   },
 
   presets: [
     [
-      'classic',
+      "classic",
       {
         docs: {
-          sidebarPath: './sidebars.ts',
-          editUrl:
-            'https://github.com/adheepgeorge/knowledge-base/tree/main/',
+          sidebarPath: "./sidebars.ts",
+          editUrl: "https://github.com/adheepgeorge/knowledge-base/tree/main/",
         },
         blog: false,
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: "./src/css/custom.css",
         },
       } satisfies Preset.Options,
     ],
   ],
 
   themeConfig: {
-    image: 'img/docusaurus-social-card.jpg',
+    image: "img/docusaurus-social-card.jpg",
     colorMode: {
       respectPrefersColorScheme: true,
     },
@@ -64,51 +64,49 @@ const config: Config = {
       },
     },
     mermaid: {
-      theme: {light: 'neutral', dark: 'dark'},
+      theme: { light: "neutral", dark: "dark" },
     },
     navbar: {
-      title: 'Knowledge Base',
+      title: "Knowledge Base",
       logo: {
-        alt: 'Key Value Systems',
-        src: 'img/logo.svg',
+        src: "img/logo.svg",
       },
       items: [
         {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Docs',
+          type: "docSidebar",
+          sidebarId: "tutorialSidebar",
+          position: "left",
+          label: "Docs",
         },
         {
-          href: 'https://github.com/adheepgeorge/knowledge-base',
-          label: 'GitHub',
-          position: 'right',
+          href: "https://github.com/adheepgeorge/knowledge-base",
+          label: "GitHub",
+          position: "right",
         },
       ],
     },
     footer: {
-      style: 'dark',
+      style: "dark",
       links: [
         {
-          title: 'Docs',
+          title: "Docs",
           items: [
             {
-              label: 'Open Spec',
-              to: '/docs/category/open-spec',
+              label: "Open Spec",
+              to: "/docs/category/open-spec",
             },
           ],
         },
         {
-          title: 'More',
+          title: "More",
           items: [
             {
-              label: 'GitHub',
-              href: 'https://github.com/adheepgeorge/knowledge-base',
+              label: "GitHub",
+              href: "https://github.com/adheepgeorge/knowledge-base",
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Key Value Systems. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

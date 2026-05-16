@@ -1,30 +1,67 @@
 /**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
+ * AMI brand palette applied to Docusaurus/Infima.
+ * RED #DA212C · RED_DARK #B71C1C · RED_DEEP #8B0000
+ * NAVY #323C49 · NAVY_MID #4A5568
  */
 
-/* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
+  /* Primary scale — AMI Red */
+  --ifm-color-primary: #DA212C;
+  --ifm-color-primary-dark: #C41E27;
+  --ifm-color-primary-darker: #B71C1C;
+  --ifm-color-primary-darkest: #8B0000;
+  --ifm-color-primary-light: #E03540;
+  --ifm-color-primary-lighter: #E44854;
+  --ifm-color-primary-lightest: #EA6B75;
+
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --docusaurus-highlighted-code-line-bg: rgba(218, 33, 44, 0.08);
+
+  /* Body text → NAVY */
+  --ifm-font-color-base: #323C49;
+  --ifm-heading-color: #323C49;
+
+  /* Navbar → NAVY background */
+  --ifm-navbar-background-color: #323C49;
+  --ifm-navbar-link-color: #ffffff;
+  --ifm-navbar-link-hover-color: #EA6B75;
+  --ifm-navbar-shadow: 0 2px 8px rgba(50, 60, 73, 0.3);
+
+  /* Sidebar active item */
+  --ifm-menu-color-active: #DA212C;
+
+  /* Footer */
+  --ifm-footer-background-color: #323C49;
+  --ifm-footer-color: #ffffff;
+  --ifm-footer-link-color: #EA6B75;
+  --ifm-footer-link-hover-color: #ffffff;
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  /* Lighter red scale for dark backgrounds */
+  --ifm-color-primary: #F04E57;
+  --ifm-color-primary-dark: #E8363F;
+  --ifm-color-primary-darker: #DA212C;
+  --ifm-color-primary-darkest: #B71C1C;
+  --ifm-color-primary-light: #F4676F;
+  --ifm-color-primary-lighter: #F67A81;
+  --ifm-color-primary-lightest: #FA9DA2;
+
+  --docusaurus-highlighted-code-line-bg: rgba(240, 78, 87, 0.15);
+
+  /* Navbar stays NAVY in dark mode */
+  --ifm-navbar-background-color: #1E252F;
+  --ifm-navbar-link-color: #ffffff;
+  --ifm-navbar-link-hover-color: #F4676F;
+
+  --ifm-footer-background-color: #1E252F;
+}
+
+/* Ensure navbar title/logo text is white */
+.navbar__title {
+  color: #ffffff;
+}
+
+.navbar__brand:hover .navbar__title {
+  color: #EA6B75;
 }
