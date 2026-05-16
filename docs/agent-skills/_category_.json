@@ -1,0 +1,10 @@
+{
+  "label": "Agent Skills",
+  "position": 2,
+  "collapsible": true,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "description": "Knowledge base for org-wide agent skills — distributing AI conventions across every repo and every agent."
+  }
+}

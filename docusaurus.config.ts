@@ -107,6 +107,10 @@ const config: Config = {
               label: "Open Spec",
               to: "/docs/category/open-spec",
             },
+            {
+              label: "Agent Skills",
+              to: "/docs/category/agent-skills",
+            },
           ],
         },
         {
