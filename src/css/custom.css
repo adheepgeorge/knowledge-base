@@ -8,13 +8,13 @@
 
 :root {
   /* Primary scale — AMI Red */
-  --ifm-color-primary: #DA212C;
-  --ifm-color-primary-dark: #C41E27;
-  --ifm-color-primary-darker: #B71C1C;
-  --ifm-color-primary-darkest: #8B0000;
-  --ifm-color-primary-light: #E03540;
-  --ifm-color-primary-lighter: #E44854;
-  --ifm-color-primary-lightest: #EA6B75;
+  --ifm-color-primary: #da212c;
+  --ifm-color-primary-dark: #c41e27;
+  --ifm-color-primary-darker: #b71c1c;
+  --ifm-color-primary-darkest: #8b0000;
+  --ifm-color-primary-light: #e03540;
+  --ifm-color-primary-lighter: #e44854;
+  --ifm-color-primary-lightest: #ea6b75;
 
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(218, 33, 44, 0.08);
@@ -24,68 +24,68 @@
   --ifm-background-surface-color: #ffffff;
 
   /* Body text → NAVY */
-  --ifm-font-color-base: #323C49;
-  --ifm-heading-color: #323C49;
+  --ifm-font-color-base: #323c49;
+  --ifm-heading-color: #323c49;
 
   /* Navbar → WHITE background with navy links */
   --ifm-navbar-background-color: #ffffff;
-  --ifm-navbar-link-color: #4A5568;
-  --ifm-navbar-link-hover-color: #DA212C;
+  --ifm-navbar-link-color: #4a5568;
+  --ifm-navbar-link-hover-color: #da212c;
   --ifm-navbar-shadow: 0 1px 2px rgba(50, 60, 73, 0.08);
 
   /* Sidebar active item — tracks --ifm-color-primary so it adapts in dark mode */
   --ifm-menu-color-active: var(--ifm-color-primary);
 
   /* Footer stays dark for grounding at page bottom */
-  --ifm-footer-background-color: #323C49;
+  --ifm-footer-background-color: #323c49;
   --ifm-footer-color: #ffffff;
-  --ifm-footer-link-color: #EA6B75;
+  --ifm-footer-link-color: #ea6b75;
   --ifm-footer-link-hover-color: #ffffff;
 
   /* Local tokens used by overrides below */
   --ami-hero-bg: #ffffff;
-  --ami-hero-title: #DA212C;
-  --ami-hero-subtitle: #4A5568;
-  --ami-navbar-title: #323C49;
+  --ami-hero-title: #da212c;
+  --ami-hero-subtitle: #4a5568;
+  --ami-navbar-title: #323c49;
 }
 
-[data-theme='dark'] {
+[data-theme="dark"] {
   /* Lighter red scale for dark backgrounds */
-  --ifm-color-primary: #F04E57;
-  --ifm-color-primary-dark: #E8363F;
-  --ifm-color-primary-darker: #DA212C;
-  --ifm-color-primary-darkest: #B71C1C;
-  --ifm-color-primary-light: #F4676F;
-  --ifm-color-primary-lighter: #F67A81;
-  --ifm-color-primary-lightest: #FA9DA2;
+  --ifm-color-primary: #f04e57;
+  --ifm-color-primary-dark: #e8363f;
+  --ifm-color-primary-darker: #da212c;
+  --ifm-color-primary-darkest: #b71c1c;
+  --ifm-color-primary-light: #f4676f;
+  --ifm-color-primary-lighter: #f67a81;
+  --ifm-color-primary-lightest: #fa9da2;
 
   --docusaurus-highlighted-code-line-bg: rgba(240, 78, 87, 0.15);
 
   /* Page surfaces → deep navy for readable contrast */
-  --ifm-background-color: #1B1F26;
-  --ifm-background-surface-color: #242A33;
+  --ifm-background-color: #1b1f26;
+  --ifm-background-surface-color: #242a33;
 
   /* Body text → soft white */
-  --ifm-font-color-base: #E5E7EB;
-  --ifm-heading-color: #F5F7FA;
+  --ifm-font-color-base: #e5e7eb;
+  --ifm-heading-color: #f5f7fa;
 
   /* Navbar */
-  --ifm-navbar-background-color: #1E252F;
-  --ifm-navbar-link-color: #E5E7EB;
-  --ifm-navbar-link-hover-color: #F4676F;
+  --ifm-navbar-background-color: #1e252f;
+  --ifm-navbar-link-color: #e5e7eb;
+  --ifm-navbar-link-hover-color: #f4676f;
   --ifm-navbar-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 
   /* Footer */
-  --ifm-footer-background-color: #11151B;
-  --ifm-footer-color: #E5E7EB;
-  --ifm-footer-link-color: #F67A81;
+  --ifm-footer-background-color: #11151b;
+  --ifm-footer-color: #e5e7eb;
+  --ifm-footer-link-color: #f67a81;
   --ifm-footer-link-hover-color: #ffffff;
 
   /* Local tokens */
   --ami-hero-bg: var(--ifm-background-color);
-  --ami-hero-title: #F4676F;
-  --ami-hero-subtitle: #C9CED6;
-  --ami-navbar-title: #F5F7FA;
+  --ami-hero-title: #f4676f;
+  --ami-hero-subtitle: #c9ced6;
+  --ami-navbar-title: #f5f7fa;
 }
 
 /* Navbar title adapts to theme */

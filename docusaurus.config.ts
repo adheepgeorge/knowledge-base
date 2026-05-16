@@ -29,7 +29,18 @@ const config: Config = {
     mermaid: true,
   },
 
-  themes: ["@docusaurus/theme-mermaid"],
+  themes: [
+    "@docusaurus/theme-mermaid",
+    [
+      "@easyops-cn/docusaurus-search-local",
+      {
+        hashed: true,
+        indexDocs: true,
+        indexBlog: false,
+        docsRouteBasePath: "/docs",
+      },
+    ],
+  ],
 
   i18n: {
     defaultLocale: "en",
