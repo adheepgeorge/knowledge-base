@@ -15,10 +15,10 @@ const config: Config = {
   },
 
   url: 'https://adheepgeorge.github.io',
-  baseUrl: '/kv-knowledge-base/',
+  baseUrl: '/knowledge-base/',
 
   organizationName: 'adheepgeorge',
-  projectName: 'kv-knowledge-base',
+  projectName: 'knowledge-base',
   deploymentBranch: 'gh-pages',
   trailingSlash: false,
 
@@ -42,7 +42,7 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           editUrl:
-            'https://github.com/adheepgeorge/kv-knowledge-base/tree/main/',
+            'https://github.com/adheepgeorge/knowledge-base/tree/main/',
         },
         blog: false,
         theme: {
@@ -80,7 +80,7 @@ const config: Config = {
           label: 'Docs',
         },
         {
-          href: 'https://github.com/adheepgeorge/kv-knowledge-base',
+          href: 'https://github.com/adheepgeorge/knowledge-base',
           label: 'GitHub',
           position: 'right',
         },
@@ -103,7 +103,7 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/adheepgeorge/kv-knowledge-base',
+              href: 'https://github.com/adheepgeorge/knowledge-base',
             },
           ],
         },
