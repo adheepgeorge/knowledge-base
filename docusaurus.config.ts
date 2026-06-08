@@ -91,6 +91,12 @@ const config: Config = {
           label: "Docs",
         },
         {
+          type: "doc",
+          docId: "embedding-claude-designs",
+          position: "left",
+          label: "Embed designs",
+        },
+        {
           href: "https://github.com/adheepgeorge/knowledge-base",
           label: "GitHub",
           position: "right",

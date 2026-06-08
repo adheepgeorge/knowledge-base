@@ -1,5 +1,6 @@
 ---
 sidebar_label: Org-wide distribution
+sidebar_position: 2
 ---
 
 # Proposal: Org-Wide Agent Skills Distribution

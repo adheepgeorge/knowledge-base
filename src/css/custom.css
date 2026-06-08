@@ -111,3 +111,47 @@
 .hero--primary .hero__subtitle {
   color: var(--ami-hero-subtitle);
 }
+
+/* ── Dedicated, immersive embed page: AMI Agent Skills — Org Guide ──────────
+ * This page is just the design artifact. Strip the doc chrome (sidebar, TOC,
+ * breadcrumbs, page title, footers) so the embed fills the viewport below the
+ * navbar and the artifact owns its scroll + sticky sidenav. Scoped to this doc
+ * id only — other docs are unaffected.
+ */
+html.docs-doc-id-agent-skills\/ami-agent-skills-org-guide .theme-doc-sidebar-container,
+html.docs-doc-id-agent-skills\/ami-agent-skills-org-guide .theme-doc-breadcrumbs,
+html.docs-doc-id-agent-skills\/ami-agent-skills-org-guide .theme-doc-markdown > header,
+html.docs-doc-id-agent-skills\/ami-agent-skills-org-guide .theme-doc-footer,
+html.docs-doc-id-agent-skills\/ami-agent-skills-org-guide .pagination-nav,
+html.docs-doc-id-agent-skills\/ami-agent-skills-org-guide .footer {
+  display: none;
+}
+
+/* The main column reserves 300px for the (now hidden) sidebar — reclaim it and
+ * let the content area sit flush so the iframe fills the viewport edge-to-edge. */
+html.docs-doc-id-agent-skills\/ami-agent-skills-org-guide [class*="docMainContainer"] {
+  max-width: none;
+}
+
+/* Zero the horizontal gutters so the embed is edge-to-edge. The container's
+ * vertical padding (1rem top + 2rem bottom) comes from Infima utility classes
+ * in a cascade layer that an unlayered !important can't override, so the iframe
+ * height subtracts that 3rem instead (see the page's Embed height). */
+html.docs-doc-id-agent-skills\/ami-agent-skills-org-guide .container {
+  max-width: none;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+html.docs-doc-id-agent-skills\/ami-agent-skills-org-guide .col {
+  max-width: 100%;
+  padding: 0;
+}
+
+/* The row's negative side margins (-1rem) are normally cancelled by the col
+ * padding we just removed — zero them too, or they cause a ~16px horizontal
+ * scroll. */
+html.docs-doc-id-agent-skills\/ami-agent-skills-org-guide .row {
+  margin-left: 0;
+  margin-right: 0;
+}
