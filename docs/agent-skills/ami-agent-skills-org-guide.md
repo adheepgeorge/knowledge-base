@@ -1,5 +1,5 @@
 ---
-sidebar_label: Overview
+sidebar_label: AMI Agent Skills — Org Guide
 sidebar_position: 1
 title: AMI Agent Skills — Org Guide
 hide_table_of_contents: true
